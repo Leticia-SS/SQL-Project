@@ -3,6 +3,9 @@
 # Importar bibliotecas SQL e Pandas
 import sqlite3
 import pandas as pd
+import json
+import uvicorn
+from fastapi import FastAPI
 
 # Criar conexão com a memória
 conn = sqlite3.connect(':memory:')
@@ -89,3 +92,37 @@ LIMIT 1;
 
 consulta_SQL_5 = pd.read_sql_query(consulta_SQL_5, conn)
 print(consulta_SQL_5)
+
+
+# Retornar os dados em formato JSON
+
+app = FastAPI()
+
+def consulta_para_json(query):
+
+    cursor = conn.cursor()
+    cursor.execute(query)
+    resultados = cursor.fetchall()
+
+    colunas = [col[0] for col in cursor.description]
+
+    resultados_json = []
+    for row in resultados:
+        dicionario = {}
+        for i, col in enumerate(colunas):
+            dicionario[col] = row[i]
+        resultados_json.append(dicionario)
+
+    return resultados_json
+
+@app.get("/consulta1")
+async def consulta1():
+    return consulta_para_json(consulta_SQL_2)
+
+@app.get("/consulta2")
+async def consulta2():
+    return consulta_para_json(consulta_SQL_3)
+
+@app.get("/consulta3")
+async def consulta3():
+    return consulta_para_json(consulta_SQL_4)
