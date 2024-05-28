@@ -3,7 +3,6 @@
 # Importar bibliotecas SQL e Pandas
 import sqlite3
 import pandas as pd
-import json
 import uvicorn
 from fastapi import FastAPI
 
@@ -37,8 +36,8 @@ WHERE p.Status = 'Concluído'
 GROUP BY d.NOME;
 """
 
-consulta_SQL_1 = pd.read_sql_query(consulta_SQL_1, conn)
-print(consulta_SQL_1)
+resultado_SQL_1 = pd.read_sql_query(consulta_SQL_1, conn)
+print(resultado_SQL_1)
 
 
 # Identificar os três recursos materiais mais usados nos projetos, listando a descrição do recursoe a quantidade total usada.
@@ -51,8 +50,8 @@ ORDER BY TotalUsado DESC
 LIMIT 3;
 """
 
-consulta_SQL_2 = pd.read_sql_query(consulta_SQL_2, conn)
-print(consulta_SQL_2)
+resultado_SQL_2 = pd.read_sql_query(consulta_SQL_2, conn)
+print(resultado_SQL_2)
 
 
 # Calcular o custo total dos projetos por departamento, considerando apenas os projetos 'Concluídos'.
@@ -65,8 +64,8 @@ WHERE p.Status = 'Concluído'
 GROUP BY d.NOME;
 """
 
-consulta_SQL_3 = pd.read_sql_query(consulta_SQL_3, conn)
-print(consulta_SQL_3)
+resultado_SQL_3 = pd.read_sql_query(consulta_SQL_3, conn)
+print(resultado_SQL_3)
 
 
 # Listar todos os projetos com seus respectivos nomes, custo, data de início, data de conclusão e o nome do funcionário responsável, que estejam 'Em Execução'.
@@ -76,8 +75,8 @@ FROM Projeto
 WHERE Status = 'Em Execução';
 """
 
-consulta_SQL_4 = pd.read_sql_query(consulta_SQL_4, conn)
-print(consulta_SQL_4)
+resultado_SQL_4 = pd.read_sql_query(consulta_SQL_4, conn)
+print(resultado_SQL_4)
 
 
 # Identificar o projeto com o maior número de dependentes envolvidos, considerando que os dependentes são associados aos funcionários que estão gerenciando os projetos.
@@ -90,39 +89,21 @@ ORDER BY NumDependentes DESC
 LIMIT 1;
 """
 
-consulta_SQL_5 = pd.read_sql_query(consulta_SQL_5, conn)
-print(consulta_SQL_5)
+resultado_SQL_5 = pd.read_sql_query(consulta_SQL_5, conn)
+print(resultado_SQL_5)
 
 
 # Retornar os dados em formato JSON
-
 app = FastAPI()
 
-def consulta_para_json(query):
-
-    cursor = conn.cursor()
-    cursor.execute(query)
-    resultados = cursor.fetchall()
-
-    colunas = [col[0] for col in cursor.description]
-
-    resultados_json = []
-    for row in resultados:
-        dicionario = {}
-        for i, col in enumerate(colunas):
-            dicionario[col] = row[i]
-        resultados_json.append(dicionario)
-
-    return resultados_json
-
 @app.get("/consulta1")
-async def consulta1():
-    return consulta_para_json(consulta_SQL_2)
+def consulta1():
+    return resultado_SQL_2.to_dict(orient='records')
 
 @app.get("/consulta2")
-async def consulta2():
-    return consulta_para_json(consulta_SQL_3)
+def consulta2():
+    return resultado_SQL_3.to_dict(orient='records')
 
 @app.get("/consulta3")
-async def consulta3():
-    return consulta_para_json(consulta_SQL_4)
+def consulta3():
+    return resultado_SQL_4.to_dict(orient='records')
