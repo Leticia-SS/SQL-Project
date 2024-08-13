@@ -17,4 +17,4 @@ This repository contains an SQL and Python assignment for university, simulating
 
 ## Credits
 
-This project was developed by me (**[Leticia-SS]**) as part of a university assignment. Special thanks to the course instructors and peers for their guidance and support.
+This project was developed by me (**Leticia-SS**) as part of a university assignment. Special thanks to the course instructors and peers for their guidance and support.
