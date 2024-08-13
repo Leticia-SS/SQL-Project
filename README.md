@@ -15,11 +15,6 @@ This repository contains an SQL and Python assignment for university, simulating
 - **PythonQueries.py**: Python script for querying and analyzing the CSV data.
 - **JSON export/**: Directory with exported JSON files (if applicable).
 
-## Features
-
-- **Data Representation**: Various CSV files represent different facets of a company's operations, including employees, departments, projects, and salaries.
-- **Data Analysis**: Python script `PythonQueries.py` is used to query and analyze the data, providing insights into the company's structure and operations.
-
 ## Credits
 
-This project was developed by **[Your Name]** as part of a university assignment. Special thanks to the course instructors and peers for their guidance and support.
+This project was developed by me (**[Leticia-SS]**) as part of a university assignment. Special thanks to the course instructors and peers for their guidance and support.
